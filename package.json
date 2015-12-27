@@ -1,0 +1,15 @@
+{
+	"name": "gossamer",
+	"productName": "Gossamer Dynamic Web Server",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron main.js"
+	},
+	"dependencies": {
+		"http": "*"
+	},
+	"devDependencies": {
+		"grunt": "^0.4.5",
+		"grunt-build-atom-shell": "^2.1.1"
+	}
+}

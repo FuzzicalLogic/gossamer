@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gossamer Dynamic Web Server</title>
+		<link rel="stylesheet" href="style.css">
+
+        <script src="http://localhost/test.js"></script>
+        <script src="components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+		<!--<link rel="import" href="components/gossamer-server/index.html">-->
+        <link rel="import" href="components/array-list/array-list.html">
+        <link rel="import" href="components/http-server/index.html">
+    </head>
+    <body>
+		<header>
+			<h1>GOSSAMER DYNAMIC SERVER</h1>
+			<span class="status">Running</span>
+			<button id="SERVER">R</button>
+			<button id="REPAINT">S</button>
+			<button id="DEVTOOLS">D</button>
+		</header>
+		<!--<gossamer-server></gossamer-server>-->
+        <array-list element="http-server">
+
+        </array-list>
+		<footer>
+		</footer>
+		<script>
+			document.querySelector('array-list').items = [
+				{
+					domain: "localhost",
+					port: 50
+				}
+			]
+		</script>
+		<script>
+		document.querySelector('button#DEVTOOLS').addEventListener('click', function(event) {
+			var win = require('electron').remote.getCurrentWindow();
+			if (win.isDevToolsOpened())
+				win.closeDevTools();
+			else win.openDevTools({detach:true});
+		});
+		document.querySelector('button#SERVER').addEventListener('click', function(event) {
+			var win = require('electron').remote.getGlobal('server');
+			server.restart();
+		});
+		document.querySelector('button#REPAINT').addEventListener('click', function(event) {
+			var sheet = document.querySelector('link[rel="stylesheet"][href="style.css"]');
+			document.head.removeChild(sheet);
+			sheet = null;
+
+			sheet = document.createElement('link');
+			sheet.setAttribute('rel', 'stylesheet');
+			sheet.setAttribute('href', 'style.css');
+			document.head.appendChild(sheet);
+		});
+		</script>
+    </body>
+</html>
