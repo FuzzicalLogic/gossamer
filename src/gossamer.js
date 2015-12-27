@@ -20,7 +20,7 @@ if (quitApp) {
 	return;
 }
 
-global.server = require('./src/server.js');
+global.server = require('./server.js');
 
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
@@ -71,7 +71,7 @@ function showMainWindow() {
 			mainWindow.hide();
 		})
 	// and load the index.html of the app.
-		mainWindow.loadURL(root + 'gossamer.html');
+		mainWindow.loadURL(root + './control-panel/index.html');
 
 	// Open the devtools.
 		//mainWindow.openDevTools({detach: true});
