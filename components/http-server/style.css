@@ -1,9 +1,0 @@
-:host {
-	display: block;
-	color: inherit;
-	background-color: inherit;
-}
-
-	:host:hover {
-		background-color: #777;
-	}
