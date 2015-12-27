@@ -1,0 +1,9 @@
+:host {
+	display: block;
+	color: inherit;
+	background-color: inherit;
+}
+
+	:host ::content > * {
+		display: block;
+	}
