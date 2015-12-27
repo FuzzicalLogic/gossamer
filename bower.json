@@ -1,0 +1,29 @@
+{
+  "name": "gossamer",
+  "description": "a",
+  "main": "main.js",
+  "authors": [
+    "Donald Atkinson <fuzzicallogic@outlook.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "polymer",
+    "nativeweb",
+    "http",
+    "http-server"
+  ],
+  "homepage": "https://github.com/FuzzicalLogic/gossamer",
+  "moduleType": [
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ]
+}
