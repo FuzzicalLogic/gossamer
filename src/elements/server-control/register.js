@@ -1,6 +1,6 @@
 (function registerElement() {
 	Polymer({
-		is: 'http-server',
+		is: 'server-control',
 
 		created: onElementCreated,
 		attached: onElementAttached,
