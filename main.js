@@ -71,7 +71,7 @@ function showMainWindow() {
 			mainWindow.hide();
 		})
 	// and load the index.html of the app.
-		mainWindow.loadURL(root + 'gossamer.html');
+		mainWindow.loadURL(root + 'src/control-panel/index.html');
 
 	// Open the devtools.
 		//mainWindow.openDevTools({detach: true});
