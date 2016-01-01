@@ -1,99 +1,5 @@
 (function registerElement() {
 // -----------------------------------------------------------------------------
-//  ELEMENT DEFINITION
-// -----------------------------------------------------------------------------
-	Polymer({ is: 'mercurial-hotkeys',
-	// Element Life Cycle
-		created: onElementCreated,
-		attached: onElementAttached,
-		detached: onElementDetached,
-	// Static Attributes - Set for all instances
-		hostAttributes: {
-			hidden: true,
-			'aria-hidden': "true",
-		},
-	// Element Properties
-		properties: {
-            on: {
-				type: String,
-				reflectToAttribute: true,
-                value: 'parent',
-				observer: '_onChangeSelector'
-			},
-			keys: {
-				type: String,
-				reflectToAttribute: true,
-				observer: '_onChangeHotKeys'
-			},
-            keyevent: {
-                type: String,
-                value: 'press',
-                reflectToAttribute: true,
-                observer: '_onChangeKeyEvent'
-            },
-			emits: {
-				type: String,
-                reflectToAttribute: true
-			},
-            noBubble: {
-                type: Boolean,
-                value: false,
-                reflectToAttribute: true,
-            },
-            cancelable: {
-                type: Boolean,
-                value: false,
-                reflectToAttribute: true,
-            },
-
-			_boundKeyHandler: {
-				type: Function,
-				readOnly: true,
-				value: function() {
-					return onKey.bind(this)
-				},
-			},
-
-			_hotkeys: {
-				type: Array,
-				readOnly: true,
-				notify: true,
-				value: function() {
-					return [];
-				},
-			}
-		},
-
-	// Property Observers
-        _onChangeSelector: onSelectorChanged,
-		_onChangeHotKeys: onHotKeysChanged,
-        _onChangeKeyEvent: onKeyEventChanged,
-
-    // Component Methods
-    // -----------------
-    /**
-     * Fires the `emits` event from the specified `element`.
-     */
-        activate: fireDOMEvent,
-	});
-
-// -----------------------------------------------------------------------------
-//  ELEMENT LIFE CYCLE FUNCTIONS
-// -----------------------------------------------------------------------------
-	function onElementCreated() {
-	}
-
-	function onElementAttached() {
-		if (this.on)
-			addListeners.call(this, this.on);
-	}
-
-	function onElementDetached() {
-		if (this.on)
-			removeListeners.call(this, this.on);
-	}
-
-// -----------------------------------------------------------------------------
 //  STATIC CONSTANTS
 // -----------------------------------------------------------------------------
 	/**
@@ -196,6 +102,113 @@
 	var SPACE_KEY = /^space(bar)?/; // IE10 only = `spacebar`
 
 // -----------------------------------------------------------------------------
+//  ELEMENT DEFINITION
+// -----------------------------------------------------------------------------
+    Polymer({ is: 'liquid-hotkey-event',
+    // Element Life Cycle
+        created: onElementCreated,
+        attached: onElementAttached,
+        detached: onElementDetached,
+    // Static Attributes - Set for all instances
+        hostAttributes: {
+            hidden: true,
+            'aria-hidden': "true",
+        },
+    // Element Properties
+        properties: {
+                    on: {
+                        type: String,
+                        reflectToAttribute: true,
+                        value: 'parent',
+                        observer: '_onChangeSelector'
+                    },
+                    keys: {
+                        type: String,
+                        reflectToAttribute: true,
+                        observer: '_onChangeHotKeys'
+                    },
+                    keyevent: {
+                        type: String,
+                        value: 'press',
+                        reflectToAttribute: true,
+                        observer: '_onChangeKeyEvent'
+                    },
+                    emits: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    prevent: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true,
+                    },
+                    stop: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribue: true,
+                    },
+                    noBubble: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true,
+                    },
+                    cancelable: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true,
+                    },
+                    debug: {
+                        type: Boolean,
+                        value: false,
+                        readOnly: true
+                    },
+
+                    _boundKeyHandler: {
+                        type: Function,
+                        readOnly: true,
+                        value: function() {
+                            return onKey.bind(this)
+                        },
+                    },
+
+                    _hotkeys: {
+                        type: Array,
+                        readOnly: true,
+                        notify: true,
+                        value: function() {
+                            return [];
+                        },
+                    }
+		},
+
+    // Property Observers
+        _onChangeSelector: onSelectorChanged,
+        _onChangeHotKeys: onHotKeysChanged,
+        _onChangeKeyEvent: onKeyEventChanged,
+
+    // Component Methods
+    // -----------------
+    /**
+     * Fires the `emits` event from the specified `element`.
+     */
+        activate: fireDOMEvent,
+    });
+
+// -----------------------------------------------------------------------------
+//  ELEMENT LIFE CYCLE FUNCTIONS
+// -----------------------------------------------------------------------------
+    function onElementCreated() { }
+    function onElementAttached() {
+        if (this.on)
+            addListeners.call(this, this.on);
+    }
+
+    function onElementDetached() {
+        if (this.on)
+            removeListeners.call(this, this.on);
+    }
+
+// -----------------------------------------------------------------------------
 //  PROPERTY OBSERVER FUNCTIONS
 // -----------------------------------------------------------------------------
     function onSelectorChanged(newValue, oldValue) {
@@ -206,7 +219,7 @@
 		if (!newValue)
 			this.on = 'parent';
 		else if (this.isAttached) {
-			this.addListeners.call(this, newValue);
+			addListeners.call(this, newValue);
 		}
 	}
 
@@ -295,34 +308,12 @@
     }
 
 	function onKey(event) {
-		var i, node, n, nodes,
-			j, segment, o, match;
-
 		if (keyboardEventMatchesKeys(event, this._hotkeys)) {
+    if (this.prevent)
 			event.preventDefault && event.preventDefault();
+    if (this.stop)
 			event.stopPropagation && event.stopPropagation();
-
-			if (this.on === 'parent')
-				node = this.parentElement;
-			else if (this.on === 'document')
-				node = document;
-			else {
-				nodes = getNodeList.call(this, this.on);
-				if (!!(n = nodes.length) && !!(o = event.path.length)) {
-					for (j = 0; j < o; j++) {
-						if (match) break;
-
-						segment = event.path[j];
-						for (i = 0; i < n; i++) {
-							node = nodes[i];
-							match = (node === segment);
-							if (match) break;
-						}
-					}
-				}
-			}
-
-			this.activate(node, event);
+			this.activate();
 		}
 	}
 
@@ -455,89 +446,5 @@
 		else if (selector)
 			return document.querySelectorAll(selector);
 	}
-
-
-
-
-
-
-
-    /*function iterateCollectedBindings(keyBindings) {
-        for (var eventString in keyBindings) {
-            this._addKeyBinding(eventString, keyBindings[eventString]);
-        }
-    }
-
-    function getBehaviorKeyBindings(behavior) {
-        return behavior.keyBindings;
-    }
-
-    function onKeyBindingEvent(keyBindings, event) {
-      keyBindings.forEach(function(keyBinding) {
-        var keyCombo = keyBinding[0];
-        var handlerName = keyBinding[1];
-
-        if (!event.defaultPrevented && keyComboMatchesEvent(keyCombo, event)) {
-          this._triggerKeyHandler(keyCombo, handlerName, event);
-        }
-      }, this);
-    }
-
-    function triggerKeyHandler(keyCombo, handlerName, keyboardEvent) {
-      var detail = Object.create(keyCombo);
-      detail.keyboardEvent = keyboardEvent;
-
-      this[handlerName].call(this, new CustomEvent(keyCombo.event, {
-        detail: detail
-      }));
-    }
-
-    function addKeyBinding(eventString, handlerName) {
-    	parseKeysString(eventString).forEach(appendKeyBinding, this);
-    }
-
-	function appendKeyBinding(keyCombo) {
-		this._keyBindings[keyCombo.event] =
-			this._keyBindings[keyCombo.event] || [];
-
-		this._keyBindings[keyCombo.event].push([
-			keyCombo,
-			handlerName
-		]);
-	}
-
-    function removeOwnKeyBindings() {
-      this._imperativeKeyBindings = {};
-      this._prepKeyBindings();
-      this._resetKeyEventListeners();
-    }
-
-    function addOwnKeyBinding(eventString, handlerName) {
-      this._imperativeKeyBindings[eventString] = handlerName;
-      this._prepKeyBindings();
-      this._resetKeyEventListeners();
-    }
-
-
-    function collectKeyBindings() {
-        var keyBindings = this.behaviors.map(getBehaviorKeyBindings);
-
-        if (keyBindings.indexOf(this.keyBindings) === -1) {
-            keyBindings.push(this.keyBindings);
-        }
-
-        return keyBindings;
-    }
-
-    function prepKeyBindings() {
-        this._keyBindings = {};
-
-        this._collectKeyBindings().forEach(iterateCollectedBindings, this);
-
-        for (var eventString in this._imperativeKeyBindings) {
-            this._addKeyBinding(eventString, this._imperativeKeyBindings[eventString]);
-        }
-    }*/
-
 
 }) ();
