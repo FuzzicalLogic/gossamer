@@ -30,7 +30,8 @@
     "liquid-elements": "FuzzicalLogic/liquid-elements#~0",
     "native-elements": "FuzzicalLogic/native-elements#~0",
     "iron-elements": "polymerelements/iron-elements#~1",
-    "paper-elements": "polymerelements/paper-elements#~1"
+    "paper-elements": "polymerelements/paper-elements#~1",
+    "forge-elements": "FuzzicalLogic/forge-elements#~0"
   },
   "resolutions": {
     "polymer": "^1.0.0",
