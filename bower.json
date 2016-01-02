@@ -86,7 +86,8 @@
     "google-url-shortener": "GoogleWebComponents/google-url-shortener#1.0.0",
     "google-youtube": "GoogleWebComponents/google-youtube#1.1.0",
     "google-youtube-upload": "GoogleWebComponents/google-youtube-upload#1.0.0",
-    "liquid-elements": "FuzzicalLogic/liquid-elements#~0"
+    "liquid-elements": "FuzzicalLogic/liquid-elements#~0",
+    "native-elements": "FuzzicalLogic/native-elements#~0"
   },
   "resolutions": {
     "polymer": "^1.0.0",
