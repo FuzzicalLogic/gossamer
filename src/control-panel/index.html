@@ -35,12 +35,6 @@
 			]
 		</script>
 		<script>
-		document.querySelector('button#DEVTOOLS').addEventListener('click', function(event) {
-			var win = require('electron').remote.getCurrentWindow();
-			if (win.isDevToolsOpened())
-				win.closeDevTools();
-			else win.openDevTools({detach:true});
-		});
 		document.querySelector('button#SERVER').addEventListener('click', function(event) {
 			var win = require('electron').remote.getGlobal('server');
 			server.restart();
