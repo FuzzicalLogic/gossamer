@@ -88,7 +88,8 @@
     "google-youtube-upload": "GoogleWebComponents/google-youtube-upload#1.0.0",
     "liquid-elements": "FuzzicalLogic/liquid-elements#~0",
     "native-elements": "FuzzicalLogic/native-elements#~0",
-    "native-window": "FuzzicalLogic/native-window#~0"
+    "native-window": "FuzzicalLogic/native-window#~0",
+    "native-title-bar": "FuzzicalLogic/native-title-bar#~0"
   },
   "resolutions": {
     "polymer": "^1.0.0",
