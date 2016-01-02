@@ -7,7 +7,7 @@
 		<link rel="import" type="css" href="style.css">
 		<template>
 			<button on-click="_onDevTools"><content></content></button>
-			<liquid-hotkey-event on="document" emits="devtools" keys="f12"></liquid-hotkey-event>
+			<liquid-hotkey-event emits="devtools" keys="f12" keyevent="up" on="document"></liquid-hotkey-event>
 		</template>
 	</dom-module>
 	<script src="register.js"></script>
