@@ -14,43 +14,44 @@
 		<link rel="import" href="../../components/native-developer-tools/index.html">
     </head>
     <body>
-		<native-window></native-window>
-		<header>
-			<h1>GOSSAMER DYNAMIC SERVER</h1>
-			<span class="status">Running</span>
-			<button id="SERVER">R</button>
-			<button id="REPAINT">S</button>
-			<native-developer-tools>D</native-developer-tools>
-		</header>
-		<!--<gossamer-server></gossamer-server>-->
-        <array-list element="server-control">
+		<native-window>
+			<header>
+				<h1>GOSSAMER DYNAMIC SERVER</h1>
+				<span class="status">Running</span>
+				<button id="SERVER">R</button>
+				<button id="REPAINT">S</button>
+				<native-developer-tools>D</native-developer-tools>
+			</header>
+			<!--<gossamer-server></gossamer-server>-->
+	        <array-list element="server-control">
 
-        </array-list>
-		<footer>
-		</footer>
-		<script>
-			document.querySelector('array-list').items = [
-				{
-					domain: "localhost",
-					port: 50
-				}
-			]
-		</script>
-		<script>
-		document.querySelector('button#SERVER').addEventListener('click', function(event) {
-			var win = require('electron').remote.getGlobal('server');
-			server.restart();
-		});
-		document.querySelector('button#REPAINT').addEventListener('click', function(event) {
-			var sheet = document.querySelector('link[rel="stylesheet"][href="style.css"]');
-			document.head.removeChild(sheet);
-			sheet = null;
+	        </array-list>
+			<footer>
+			</footer>
+			<script>
+				document.querySelector('array-list').items = [
+					{
+						domain: "localhost",
+						port: 50
+					}
+				]
+			</script>
+			<script>
+			document.querySelector('button#SERVER').addEventListener('click', function(event) {
+				var win = require('electron').remote.getGlobal('server');
+				server.restart();
+			});
+			document.querySelector('button#REPAINT').addEventListener('click', function(event) {
+				var sheet = document.querySelector('link[rel="stylesheet"][href="style.css"]');
+				document.head.removeChild(sheet);
+				sheet = null;
 
-			sheet = document.createElement('link');
-			sheet.setAttribute('rel', 'stylesheet');
-			sheet.setAttribute('href', 'style.css');
-			document.head.appendChild(sheet);
-		});
-		</script>
+				sheet = document.createElement('link');
+				sheet.setAttribute('rel', 'stylesheet');
+				sheet.setAttribute('href', 'style.css');
+				document.head.appendChild(sheet);
+			});
+			</script>
+		</native-window>
     </body>
 </html>
