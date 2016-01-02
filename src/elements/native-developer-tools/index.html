@@ -1,8 +1,13 @@
-<dom-module id="native-developer-tools">
-	<link rel="import" type="css" href="style.css">
-	<template>
-		<button on-click="_onDevTools">D</button>
-		<liquid-hotkey-event on="document" emits="devtools" keys="f12"></liquid-hotkey-event>
-	</template>
-</dom-module>
-<script src="register.js"></script>
+<!-- Component Dependencies -->
+	<link rel="import" href="../../../components/polymer/polymer.html">
+	<link rel="import" href="../../../components/liquid-hotkey-event/index.html">
+
+<!-- Component Definition and Template -->
+	<dom-module id="native-developer-tools">
+		<link rel="import" type="css" href="style.css">
+		<template>
+			<button on-click="_onDevTools">D</button>
+			<liquid-hotkey-event on="document" emits="devtools" keys="f12"></liquid-hotkey-event>
+		</template>
+	</dom-module>
+	<script src="register.js"></script>
