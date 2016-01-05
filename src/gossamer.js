@@ -63,6 +63,7 @@ function showMainWindow() {
 			height: ELECTRON.screen.getPrimaryDisplay().workAreaSize.height,
 			x: ELECTRON.screen.getPrimaryDisplay().workAreaSize.width - 350,
 			y: 0,
+			icon: './icons/tray.png',
 			transparent: true,
 			frame: false
 		});
