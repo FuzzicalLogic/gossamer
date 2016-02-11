@@ -1,15 +1,19 @@
 {
-	"name": "gossamer",
-	"productName": "Gossamer Dynamic Web Server",
-	"main": "src/gossamer.js",
-	"scripts": {
-		"start": "electron src/gossamer.js"
-	},
-	"dependencies": {
-		"http": "*"
-	},
-	"devDependencies": {
-		"grunt": "^0.4.5",
-		"grunt-build-atom-shell": "^2.1.1"
-	}
+  "name": "gossamer",
+  "productName": "Gossamer Dynamic Web Server",
+  "main": "src/gossamer.js",
+  "scripts": {
+    "start": "electron src/gossamer.js"
+  },
+  "dependencies": {
+    "connect": "^3.4.1",
+    "http": "*",
+    "oauthorize": "^0.1.0",
+    "uid2": "0.0.3",
+    "utils-merge": "^1.0.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-build-atom-shell": "^2.1.1"
+  }
 }

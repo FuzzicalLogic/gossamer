@@ -14,32 +14,27 @@
 		<link rel="import" href="../../components/native-developer-tools/index.html">
     </head>
     <body>
-		<native-window>
-			<header>
-				<h1>GOSSAMER DYNAMIC SERVER</h1>
-				<span class="status">Running</span>
-				<button id="SERVER">R</button>
-			</header>
-			<!--<gossamer-server></gossamer-server>-->
-	        <array-list element="server-control">
+		<native-window design="sidebar" debuggable>
+			<span class="status" window-control>Running</span>
+			<button id="SERVER" window-control>R</button>
+
+	        <array-list element="server-control" window-content>
 
 	        </array-list>
-			<footer>
-			</footer>
-			<script>
-				document.querySelector('array-list').items = [
-					{
-						domain: "localhost",
-						port: 50
-					}
-				]
-			</script>
-			<script>
-			document.querySelector('button#SERVER').addEventListener('click', function(event) {
-				var win = require('electron').remote.getGlobal('server');
-				server.restart();
-			});
-			</script>
 		</native-window>
+		<script>
+			document.querySelector('array-list').items = [
+				{
+					domain: "localhost",
+					port: 50
+				}
+			]
+		</script>
+		<script>
+		document.querySelector('button#SERVER').addEventListener('click', function(event) {
+			var win = require('electron').remote.getGlobal('server');
+			server.restart();
+		});
+		</script>
     </body>
 </html>
