@@ -20,7 +20,7 @@ if (quitApp) {
 	return;
 }
 
-global.server = require('./src/server.js');
+global.server = require('./server.js');
 
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
@@ -63,6 +63,7 @@ function showMainWindow() {
 			height: ELECTRON.screen.getPrimaryDisplay().workAreaSize.height,
 			x: ELECTRON.screen.getPrimaryDisplay().workAreaSize.width - 350,
 			y: 0,
+			icon: './icons/tray.png',
 			transparent: true,
 			frame: false
 		});
@@ -71,7 +72,7 @@ function showMainWindow() {
 			mainWindow.hide();
 		})
 	// and load the index.html of the app.
-		mainWindow.loadURL(root + 'gossamer.html');
+		mainWindow.loadURL(root + './control-panel/index.html');
 
 	// Open the devtools.
 		//mainWindow.openDevTools({detach: true});
