@@ -1,18 +1,18 @@
 module.exports = (function(HTTP, CONNECT) {
 	var app = CONNECT();
 
-	app.use(function isLocal(req, res, next) {
+	app.use(function isLocal(request, response, next) {
 		next();
 	});
-	app.use('/services', function() {
+	app.use('/services', function(request, response, next) {
 		res.end('Here is the list of services...');
 	});
 	app.use(require('./servicerouter'))
-	app.use(function onerror(err, req, res, next) {
+	app.use(function onerror(err, request, response, next) {
 		console.log('Error:')
 		next();
 	});
-	app.use('/request_token', function(req, res, next) {
+	app.use('/request_token', function(request, response, next) {
 		res.end('We are making a token!');
 	});
 	app.use(function(req, res, next) {
