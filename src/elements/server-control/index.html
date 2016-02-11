@@ -4,8 +4,14 @@
 	<dom-module id="server-control">
 		<link rel="import" type="css" href="style.css">
 		<template>
-			<div>{{domain}}</div><div>{{port}}</div>
-			<div>{{state}}</div>
+			<details>
+				<summary>
+					<span>{{domain}}</span>
+					<span>{{port}}</span>
+					<span>{{state}}</span>
+				</summary>
+				<div>This is some sample server details screen.</div>
+			</details>
 		</template>
 		<script src="register.js"></script>
 	</dom-module>

@@ -3,7 +3,13 @@
 	color: inherit;
 	background-color: inherit;
 }
+:host:hover {
+	background-color: #777;
+}
 
-	:host:hover {
-		background-color: #777;
+	:host > details > summary {
+
+	}
+	:host > details > summary::-webkit-details-marker {
+		display: none;
 	}
