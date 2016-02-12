@@ -6,8 +6,11 @@
     "start": "electron src/gossamer.js"
   },
   "dependencies": {
+    "async": "^1.5.2",
+    "body-parser": "^1.15.0",
     "connect": "^3.4.1",
     "http": "*",
+    "native-dns": "^0.7.0",
     "oauthorize": "^0.1.0",
     "uid2": "0.0.3",
     "utils-merge": "^1.0.0"
