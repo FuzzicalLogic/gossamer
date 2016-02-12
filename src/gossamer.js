@@ -20,6 +20,7 @@ if (quitApp) {
 	return;
 }
 
+global.dnsserver = require('./dnsproxy.js')
 global.server = require('./server.js');
 
 // This method will be called when Electron has done everything
