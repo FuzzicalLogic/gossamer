@@ -1,6 +1,7 @@
 'use strict';
 module.exports = (function(DNS, ASYNC) {
-	var ddnsserver = DNS.createServer(),
+	var ddnscontrol = require('./ddnscontrol'),
+		ddnsserver = DNS.createServer(),
 		authority = {
 			address: '8.8.8.8',
 			port: 53,
@@ -12,6 +13,7 @@ module.exports = (function(DNS, ASYNC) {
 	ddnsserver.on('listening', function() {
 		console.log('ddnsserver listening on', ddnsserver.address());
 		console.log('starting http configuration');
+		ddnscontrol.start(ddnsserver.address().address, entries);
 	});
 	ddnsserver.on('socketError', function(err, socket) {
 		console.error(err);
@@ -21,18 +23,19 @@ module.exports = (function(DNS, ASYNC) {
 	});
 	ddnsserver.on('request', handleRequest);
 	ddnsserver.on('close', function() {
+		ddnscontrol.close();
 		console.log('ddnsserver closed', ddnsserver.address());
+
 	});
 
 	return {
-		start: function(computer, ip) {
+		start: function(ip) {
 			entries.push({
-				domain: '^ddns\\.' + computer + '\\.local$',
+				domain: 'ddns.' + require('os').hostname() + '.local',
 				records:[
 					{ type: 'A', address: ip }
 				]
 			});
-			console.log(entries[0].domain, entries[0].records);
 			ddnsserver.serve(53, ip);
 		},
 		close: function() {
@@ -44,13 +47,11 @@ module.exports = (function(DNS, ASYNC) {
 	};
 
 	function handleRequest(request, response) {
-		console.log('request from', request.address.address, 'for', request.question[0].name);
-
 	    var f = [];
 
 	    request.question.forEach((question) => {
 	    	var entry = entries.filter((r) => {
-				return new RegExp(r.domain, 'i').exec(question.name)
+				return new RegExp('^'+r.domain.replace(/\./g, '\\.')+'$', 'i').exec(question.name)
 			});
 	    	if (entry.length) {
 	        	entry[0].records.forEach((record) => {

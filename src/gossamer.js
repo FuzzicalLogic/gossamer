@@ -20,7 +20,7 @@ if (quitApp) {
 	return;
 }
 
-global.dnsserver = require('./dnsproxy.js').start('ntmobiledev', '127.255.255.254');
+global.dnsserver = require('./ddns').start('127.255.255.254');
 global.server = require('./server.js');
 
 // This method will be called when Electron has done everything
