@@ -1,6 +1,4 @@
-var HTTP, CONNECT;
-
-var VALID_IP4_ADDRESS = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+"use strict";
 module.exports = (http, connect) => {
 	if (http && typeof http.createServer === 'function')
 		HTTP = http;
@@ -12,13 +10,18 @@ module.exports = (http, connect) => {
 		: () => {};
 }
 
+var HTTP, CONNECT;
+var VALID_IP4_ADDRESS = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
 
 ServiceManager.prototype = Object.create(null);
 ServiceManager.prototype.start = startServer;
 ServiceManager.prototype.close = closeServer;
 
 function ServiceManager(dhcp) {
-	var address, hostname;
+	var hostname = 'services.local',
+		address = '127.0.0.1',
+		port = 80,
+		services = [];
 
 	this.app = CONNECT();
 	this.dhcp = dhcp;
