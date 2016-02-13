@@ -1,7 +1,9 @@
 "use strict";
 
 var HTTP = require('http'),
-	CONNECT = require('CONNECT');
+	CONNECT = require('CONNECT'),
+	DNS = require('native-dns'),
+	ASYNC = require('async');
 
 module.exports = function runApplication(ELECTRON) {
 	var root = 'file://' + __dirname + '/';
@@ -10,8 +12,10 @@ module.exports = function runApplication(ELECTRON) {
 	var BrowserWindow = ELECTRON.BrowserWindow;  // Module to create native browser window.
 	var Tray = ELECTRON.Tray;
 	var Menu = ELECTRON.Menu;
-	var GossamerService = require('./service')(HTTP, CONNECT);
+
+	var DDNSServer = require('../ddns')(DNS, ASYNC);
 	var ServiceManager = require('../servicemanager')(HTTP, CONNECT);
+	var GossamerService = require('./service')(HTTP, CONNECT);
 
 	this.commandLine.appendSwitch('v', -1);
 	this.commandLine.appendSwitch('vmodule', 'console=0');
@@ -30,7 +34,7 @@ module.exports = function runApplication(ELECTRON) {
 		return;
 	}
 
-	global.dnsserver = require('../ddns');
+	global.dnsserver = new DDNSServer();
 	global.server = new GossamerService();
 	global.serviceManager = new ServiceManager(global.dnsserver);
 
