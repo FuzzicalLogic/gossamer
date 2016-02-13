@@ -5,6 +5,7 @@ var app = ELECTRON.app;  // Module to control application life.
 var BrowserWindow = ELECTRON.BrowserWindow;  // Module to create native browser window.
 var Tray = ELECTRON.Tray;
 var Menu = ELECTRON.Menu;
+var ServiceManager = require('./servicemanager')(require('http'), require('connect'));
 
 app.commandLine.appendSwitch('v', -1);
 app.commandLine.appendSwitch('vmodule', 'console=0');
@@ -22,6 +23,7 @@ if (quitApp) {
 
 global.dnsserver = require('./ddns');
 global.server = require('./server.js');
+global.serviceManager = new ServiceManager(global.dnsserver);
 
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
@@ -29,6 +31,7 @@ app.on('ready', runApplication);
 app.on('will-quit', function() {
 	global.dnsserver.close();
 	global.server.close();
+	global.serviceManager.close();
 });
 // Quit when all windows are closed.
 app.on('window-all-closed', function() { });
@@ -54,6 +57,10 @@ function runApplication() {
 		appTray.on('click', showMainWindow);
 		global.dnsserver.start('127.255.255.254');
 		global.server.start();
+
+		global.serviceManager.address('127.99.0.1')
+			.hostname('services.' + require('os').hostname() + '.local')
+			.start();
 	}
 }
 
