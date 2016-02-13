@@ -10,7 +10,7 @@ module.exports = function runApplication(ELECTRON) {
 	var BrowserWindow = ELECTRON.BrowserWindow;  // Module to create native browser window.
 	var Tray = ELECTRON.Tray;
 	var Menu = ELECTRON.Menu;
-	var GossamerService = require('./server')(HTTP, CONNECT);
+	var GossamerService = require('./service')(HTTP, CONNECT);
 	var ServiceManager = require('../servicemanager')(HTTP, CONNECT);
 
 	this.commandLine.appendSwitch('v', -1);
