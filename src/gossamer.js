@@ -20,12 +20,14 @@ if (quitApp) {
 	return;
 }
 
+global.dnsserver = require('./ddns');
 global.server = require('./server.js');
 
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', runApplication);
 app.on('will-quit', function() {
+	global.dnsserver.close();
 	global.server.close();
 });
 // Quit when all windows are closed.
@@ -50,6 +52,7 @@ function runApplication() {
 		appTray.setToolTip('Gossamer');
 		appTray.setContextMenu(mnuTray);
 		appTray.on('click', showMainWindow);
+		global.dnsserver.start('127.255.255.254');
 		global.server.start();
 	}
 }
