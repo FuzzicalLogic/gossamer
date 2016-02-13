@@ -1,9 +1,9 @@
 {
   "name": "gossamer",
   "productName": "Gossamer Dynamic Web Server",
-  "main": "src/gossamer.js",
+  "main": "src/",
   "scripts": {
-    "start": "electron src/gossamer.js"
+    "start": "electron src/"
   },
   "dependencies": {
     "async": "^1.5.2",
