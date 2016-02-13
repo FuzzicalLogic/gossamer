@@ -11,8 +11,6 @@ module.exports = (function(DNS, ASYNC) {
 	var entries = [];
 
 	ddnsserver.on('listening', function() {
-		console.log('ddnsserver listening on', ddnsserver.address());
-		console.log('starting http configuration');
 		ddnscontrol.start(ddnsserver.address().address, entries);
 	});
 	ddnsserver.on('socketError', function(err, socket) {
@@ -24,8 +22,6 @@ module.exports = (function(DNS, ASYNC) {
 	ddnsserver.on('request', handleRequest);
 	ddnsserver.on('close', function() {
 		ddnscontrol.close();
-		console.log('ddnsserver closed', ddnsserver.address());
-
 	});
 
 	return {

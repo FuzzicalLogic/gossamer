@@ -1,22 +1,23 @@
 module.exports = (function(HTTP, CONNECT) {
-	var configServer = CONNECT(),
+	var service = CONNECT(),
+		server,
 		dnsEntries;
 
-	configServer.use('/entries', function(request, response, next) {
+	service.use('/entries', function(request, response, next) {
 		response.end(JSON.stringify(dnsEntries));
 	});
-	configServer.use(function(request, response, next) {
+	service.use(function(request, response, next) {
 		response.end('DDNS Control Panel is live!');
 	});
 
 	return {
 		start: function(ip, entries) {
-			HTTP.createServer(configServer);
+			server = HTTP.createServer(service);
 			dnsEntries = entries;
-			configServer.listen(80, ip);
+			server.listen(80, ip);
 		},
 		close: function() {
-			configServer.close();
+			server.close();
 		}
 	}
 
