@@ -11,10 +11,14 @@ module.exports = (dns, async) => {
 }
 
 var DNS, ASYNC;
+var VALID_IP4_ADDRESS = /^(?:(25[0-5]|(?:2[0-4]|1[0-9]|[1-9])?[0-9])\.){3}(25[0-5]|(?:2[0-4]|1[0-9]|[1-9])?[0-9])$/;
+var VALID_IP6_SEGMENT = /^((?:[1-9a-f][0-9a-f]{0,2})?[0-9a-f])$/i;
+var VALID_IP6_ADDRESS = /^(((?:[1-9a-f][0-9a-f]{0,2})?[0-9a-f]:){1,6}(:(?:[1-9a-f][0-9a-f]{0,2})?[0-9a-f]){1,6}|:(:|(:(?:[1-9a-f][0-9a-f]{0,2})?[0-9a-f]){0,7})|((?:[1-9a-f][0-9a-f]{0,2})?[0-9a-f]:){1,7}:)$/i;
 
 DDNSServer.prototype = Object.create(null);
 DDNSServer.prototype.start = startServer;
 DDNSServer.prototype.entries = getEntries;
+DDNSServer.prototype.request = requestAddress;
 DDNSServer.prototype.close = closeServer;
 
 var authority = {
@@ -97,6 +101,35 @@ function proxyRequest(question, response, cb) {
 
 	request.on('end', cb);
 	request.send();
+}
+
+function requestAddress(type, range) {
+	type = type || 'A';
+	this.entries().forEach((entry) => {
+		entry.records.forEach((record) => {
+			if (record.type === type)
+				;
+		});
+	});
+}
+
+function parseIPv4Address(address) {
+	var segments = address.split('.').map((segment) => {
+		return (!isNaN(segment)) ? +segment : segment;
+	});
+}
+
+function parseIPv6Address(address) {
+	var segments = address.split(':').map((segment) => {
+			var hex = '0x' + segment;
+			return (!isNaN(hex)) ? +hex : segment;
+		}),
+		nSegments = segments.length;
+
+	if (nSegments > 8 || nSegments < 3)
+		return false;
+	else if ((nSegments <= 6) && segments[nSegments - 1])
+		return false;
 }
 
 function closeServer() {

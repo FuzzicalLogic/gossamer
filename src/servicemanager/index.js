@@ -11,7 +11,7 @@ module.exports = (http, connect) => {
 }
 
 var HTTP, CONNECT;
-var VALID_IP4_ADDRESS = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+var VALID_IP4_ADDRESS = /^(?:(25[0-5]|(?:2[0-4]|1[0-9]|[1-9])?[0-9])\.){3}(25[0-5]|(?:2[0-4]|1[0-9]|[1-9])?[0-9])$/;
 
 ServiceManager.prototype = Object.create(null);
 ServiceManager.prototype.start = startServer;
