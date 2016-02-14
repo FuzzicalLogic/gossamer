@@ -100,7 +100,7 @@ module.exports = function runApplication(ELECTRON) {
 		});
 		dhcpaClient.broadcastPacket(disc, undefined, () => {
 			console.log('dhcpDiscover sent');
-		});
+		}); 
 
 	});
 	this.on('will-quit', function() {
