@@ -1,8 +1,10 @@
 "use strict";
 
-var HTTP = require('http'),
+var util = require('util'),
+	HTTP = require('http'),
 	CONNECT = require('CONNECT'),
 	DNS = require('native-dns'),
+	DHCPA = require('../../lib/dhcpa'),
 	ASYNC = require('async');
 
 module.exports = function runApplication(ELECTRON) {
@@ -14,6 +16,7 @@ module.exports = function runApplication(ELECTRON) {
 	var Menu = ELECTRON.Menu;
 
 	var DDNSServer = require('../ddns')(DNS, ASYNC);
+	var DHCPAServer = require('../dhcpa')(DHCPA, CONNECT);
 	var ServiceManager = require('../servicemanager')(HTTP, CONNECT);
 	var GossamerService = require('./service')(HTTP, CONNECT);
 
@@ -35,6 +38,7 @@ module.exports = function runApplication(ELECTRON) {
 	}
 
 	global.dnsserver = new DDNSServer();
+	global.dhcpaserver = new DHCPAServer();
 	global.server = new GossamerService();
 	global.serviceManager = new ServiceManager(global.dnsserver);
 
@@ -57,13 +61,47 @@ module.exports = function runApplication(ELECTRON) {
 			appTray.setToolTip('Gossamer');
 			appTray.setContextMenu(mnuTray);
 			appTray.on('click', showMainWindow);
-			global.dnsserver.start('127.255.255.254');
-			global.server.start();
 
+			global.dnsserver.start('127.255.255.254');
+			global.dhcpaserver.address('127.90.0.1')
+				.start();
 			global.serviceManager.address('127.99.0.1')
 				.hostname('services' + DOMAIN_SUFFIX)
 				.start();
+
+			global.server.start();
 		}
+
+		var dhcpaClient = new DHCPA.Client();
+		dhcpaClient.on('listening', (address) => {
+			console.log('DHCP/A Test Client listening on: ' + address);
+		});
+		dhcpaClient.on('message', function(pkt) {
+		    console.log('DHCP/A Message:', util.inspect(pkt, false, 3));
+		});
+		dhcpaClient.on('dhcpOffer', function(pkt) {
+		    console.log('DHCP/A Offer:', util.inspect(pkt, false, 3));
+		});
+		dhcpaClient.on('dhcpAck', function(pkt) {
+		    console.log('DHCP/A Acknowledge:', util.inspect(pkt, false, 3));
+		});
+		dhcpaClient.on('dhcpNak', function(pkt) {
+		    console.log('DHCP/A Non-acknowledge:', util.inspect(pkt, false, 3));
+		});
+		dhcpaClient.bind('127.255.255.253');
+
+		var disc = dhcpaClient.createDiscoverPacket({
+			xid: 0x01,
+			chaddr: '00:01:02:03:04:05',
+			options: {
+				dhcpMessageType: DHCPA.Protocol.DHCPMessageType. DHCPDISCOVER,
+				clientIdentifier: 'Test Client Service'
+			}
+		});
+		dhcpaClient.broadcastPacket(disc, undefined, () => {
+			console.log('dhcpDiscover sent');
+		});
+
 	});
 	this.on('will-quit', function() {
 		global.dnsserver.close();
