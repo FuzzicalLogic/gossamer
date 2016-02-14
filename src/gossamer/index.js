@@ -94,13 +94,13 @@ module.exports = function runApplication(ELECTRON) {
 			xid: 0x01,
 			chaddr: '00:01:02:03:04:05',
 			options: {
-				dhcpMessageType: DHCPA.Protocol.DHCPMessageType. DHCPDISCOVER,
+				dhcpMessageType: DHCPA.Protocol.DHCPMessageType.DHCPDISCOVER,
 				clientIdentifier: 'Test Client Service'
 			}
 		});
 		dhcpaClient.broadcastPacket(disc, undefined, () => {
 			console.log('dhcpDiscover sent');
-		}); 
+		});
 
 	});
 	this.on('will-quit', function() {
