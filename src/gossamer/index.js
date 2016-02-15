@@ -79,13 +79,13 @@ module.exports = function runApplication(ELECTRON) {
 		dhcpaClient.on('message', function(pkt) {
 		    console.log('DHCP/A Message:', util.inspect(pkt, false, 3));
 		});
-		dhcpaClient.on('dhcpOffer', function(pkt) {
+		dhcpaClient.on('offer', function(pkt) {
 		    console.log('DHCP/A Offer:', util.inspect(pkt, false, 3));
 		});
-		dhcpaClient.on('dhcpAck', function(pkt) {
+		dhcpaClient.on('acknowledge', function(pkt) {
 		    console.log('DHCP/A Acknowledge:', util.inspect(pkt, false, 3));
 		});
-		dhcpaClient.on('dhcpNak', function(pkt) {
+		dhcpaClient.on('deny', function(pkt) {
 		    console.log('DHCP/A Non-acknowledge:', util.inspect(pkt, false, 3));
 		});
 		dhcpaClient.bind('127.255.255.253');
@@ -94,10 +94,10 @@ module.exports = function runApplication(ELECTRON) {
 			xid: 0x01,
 			chaddr: '00:01:02:03:04:05',
 			options: {
-				dhcpMessageType: DHCPA.Protocol.DHCPMessageType.DHCPDISCOVER,
-				clientIdentifier: 'Test Client Service'
+				dhcpMessageType: DHCPA.Protocol.DHCPMessageType.DHCP_DISCOVER.value,
 			}
 		});
+		console.log('Sending DHCP/A Discover:', util.inspect(disc, false, 3))
 		dhcpaClient.broadcastPacket(disc, undefined, () => {
 			console.log('dhcpDiscover sent');
 		});
