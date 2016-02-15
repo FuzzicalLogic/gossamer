@@ -16,8 +16,8 @@ module.exports = function runApplication(ELECTRON) {
 	var Menu = ELECTRON.Menu;
 
 	var DDNSServer = require('../ddns')(DNS, ASYNC);
-	var DHCPAServer = require('../dhcpa')(DHCPA, CONNECT);
-	var ServiceManager = require('../servicemanager')(HTTP, CONNECT);
+	//var DHCPAServer = require('../dhcpa')(DHCPA, CONNECT);
+	var ServiceManager = require('../servicemanager')(HTTP, CONNECT, DHCPA);
 	var GossamerService = require('./service')(HTTP, CONNECT);
 
 	this.commandLine.appendSwitch('v', -1);
@@ -38,7 +38,7 @@ module.exports = function runApplication(ELECTRON) {
 	}
 
 	global.dnsserver = new DDNSServer();
-	global.dhcpaserver = new DHCPAServer();
+	//global.dhcpaserver = new DHCPAServer();
 	global.server = new GossamerService();
 	global.serviceManager = new ServiceManager(global.dnsserver);
 
@@ -63,8 +63,8 @@ module.exports = function runApplication(ELECTRON) {
 			appTray.on('click', showMainWindow);
 
 			global.dnsserver.start('127.255.255.254');
-			global.dhcpaserver.address('127.90.0.1')
-				.start();
+			//global.dhcpaserver.address('127.90.0.1')
+			//	.start();
 			global.serviceManager.address('127.99.0.1')
 				.hostname('services' + DOMAIN_SUFFIX)
 				.start();
