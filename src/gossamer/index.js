@@ -4,7 +4,7 @@ var util = require('util'),
 	HTTP = require('http'),
 	CONNECT = require('CONNECT'),
 	DNS = require('native-dns'),
-	DHCPA = require('../../lib/dhcpa'),
+	DHCPA = require('../../lib/dhcpa')(),
 	ASYNC = require('async');
 
 module.exports = function runApplication(ELECTRON) {
