@@ -92,7 +92,9 @@ module.exports = function runApplication(ELECTRON) {
 
 		var disc = dhcpaClient.createDiscoverPacket({
 			xid: 0x01,
-			chaddr: '00:01:02:03:04:05',
+			chaddr: {
+				address: '00:01:02:03:04:05'
+			},
 			options: {
 				dhcpMessageType: DHCPA.protocol.DHCPMessageType.DHCP_DISCOVER.value,
 			}
