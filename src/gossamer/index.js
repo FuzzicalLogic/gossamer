@@ -98,7 +98,7 @@ module.exports = function runApplication(ELECTRON) {
 				address: '00:01:02:03:04:05'
 			},
 			options: {
-				dhcpMessageType: DHCPA.protocol.DHCPMessageType.DHCP_DISCOVER.value,
+				dhcpMessageType: DHCPA.Message.TYPES.DHCP_DISCOVER.value,
 			}
 		});
 		console.log('Sending DHCP/A Discover:', util.inspect(disc, false, 3))
