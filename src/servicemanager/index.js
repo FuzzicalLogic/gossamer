@@ -78,7 +78,7 @@ function ServiceManager(dns) {
 
 function startServer() {
 	this.dhcpa.on('listening', () => {
-		console.log('DHCP/A started successfully on: ' + address);
+		console.log('DHCP/A started successfully on: ' + this.dhcpa.address());
 		this.server.listen(80, this.address(), () => {
 			this.dns.entries().push({
 				domain: this.hostname(),
