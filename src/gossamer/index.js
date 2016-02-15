@@ -81,6 +81,8 @@ module.exports = function runApplication(ELECTRON) {
 		});
 		dhcpaClient.on('offer', (from, pkt) => {
 		    console.log('DHCP/A Offer:', util.inspect(pkt, false, 3));
+			var spkt = dhcpaClient.createRequestPacket(pkt);
+			dhcpaClient.send(spkt, from.port, from.address)
 		});
 		dhcpaClient.on('acknowledge', function(pkt) {
 		    console.log('DHCP/A Acknowledge:', util.inspect(pkt, false, 3));
