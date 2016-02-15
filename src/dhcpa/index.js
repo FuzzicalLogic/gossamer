@@ -43,6 +43,12 @@ function DHCPAServer() {
 	this.server.on('message', (msg) => {
 		console.log('DHCP/A Message received: ' + util.inspect(msg, false, 3));
 	});
+	this.server.on('discover', (from, pkt) => {
+		console.log('DHCP/A Discovery received: ' + util.inspect(from, false, 3));
+		console.log('DHCP/A Discovery received: ' + util.inspect(pkt, false, 3));
+		var spkt = this.server.createOfferPacket(pkt);
+		this.server.send(spkt, from.port, from.address);
+	});
 }
 
 function startServer() {
