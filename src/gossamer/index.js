@@ -94,7 +94,7 @@ module.exports = function runApplication(ELECTRON) {
 			xid: 0x01,
 			chaddr: '00:01:02:03:04:05',
 			options: {
-				dhcpMessageType: DHCPA.Protocol.DHCPMessageType.DHCP_DISCOVER.value,
+				dhcpMessageType: DHCPA.protocol.DHCPMessageType.DHCP_DISCOVER.value,
 			}
 		});
 		console.log('Sending DHCP/A Discover:', util.inspect(disc, false, 3))
