@@ -79,7 +79,7 @@ module.exports = function runApplication(ELECTRON) {
 		dhcpaClient.on('message', function(pkt) {
 		    console.log('DHCP/A Message:', util.inspect(pkt, false, 3));
 		});
-		dhcpaClient.on('offer', function(pkt) {
+		dhcpaClient.on('offer', (from, pkt) => {
 		    console.log('DHCP/A Offer:', util.inspect(pkt, false, 3));
 		});
 		dhcpaClient.on('acknowledge', function(pkt) {
