@@ -76,19 +76,19 @@ module.exports = function runApplication(ELECTRON) {
 		dhcpaClient.on('listening', (address) => {
 			console.log('DHCP/A Test Client listening on: ' + address);
 		});
-		dhcpaClient.on('message', function(pkt) {
-		    console.log('DHCP/A Message:', util.inspect(pkt, false, 3));
+		dhcpaClient.on('message', (from, msg) => {
+
 		});
-		dhcpaClient.on('offer', (from, pkt) => {
-		    console.log('DHCP/A Offer:', util.inspect(pkt, false, 3));
-			var spkt = dhcpaClient.createRequestPacket(pkt);
+		dhcpaClient.on('offer', (from, msg) => {
+			var spkt = dhcpaClient.createRequestPacket(msg);
+			//var spkt = dhcpaClient.createRequestPacket(pkt);
 			dhcpaClient.send(spkt, from.port, from.address)
 		});
-		dhcpaClient.on('acknowledge', function(pkt) {
-		    console.log('DHCP/A Acknowledge:', util.inspect(pkt, false, 3));
+		dhcpaClient.on('ack', (from, msg) => {
+
 		});
-		dhcpaClient.on('deny', function(pkt) {
-		    console.log('DHCP/A Non-acknowledge:', util.inspect(pkt, false, 3));
+		dhcpaClient.on('nak', (from, pkt) => {
+
 		});
 		dhcpaClient.bind('127.255.255.253');
 

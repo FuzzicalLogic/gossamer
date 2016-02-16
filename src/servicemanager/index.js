@@ -42,24 +42,23 @@ function ServiceManager(dns) {
 	};
 
 	this.dhcpa = DHCPA.createServer();
-	this.dhcpa.on('message', (msg) => {
-		console.log('DHCP/A Message received: ' + util.inspect(msg, false, 3));
+	this.dhcpa.on('message', (from, msg) => {
+
 	});
-	this.dhcpa.on('discover', (from, pkt) => {
-		console.log('DHCP/A Discovery received: ' + util.inspect(from, false, 3));
-		console.log('DHCP/A Discovery received: ' + util.inspect(pkt, false, 3));
-		var spkt = this.dhcpa.createOfferPacket(pkt);
+	this.dhcpa.on('discover', (from, msg) => {
+		var spkt = this.dhcpa.createOfferPacket(msg);
 		this.dhcpa.send(spkt, from.port, from.address);
 	});
-	this.dhcpa.on('request', (from, pkt) => {
-		console.log('DHCP/A Request received: ' + util.inspect(from, false, 3));
-		console.log('DHCP/A Request contents: ' + util.inspect(pkt, false, 3));
+	this.dhcpa.on('request', (from, msg) => {
+		var spkt = this.dhcpa.createAckPacket(msg);
+		//var spkt = this.dhcpa.createNakPacket(pkt);
+		this.dhcpa.send(spkt, from.port, from.address);
+	});
+	this.dhcpa.on('decline', (from, msg) => {
 		//var spkt = this.dhcpa.createOfferPacket(pkt);
 		//this.dhcpa.send(spkt, from.port, from.address);
 	});
-	this.dhcpa.on('release', (from, pkt) => {
-		console.log('DHCP/A Release received: ' + util.inspect(from, false, 3));
-		console.log('DHCP/A Release contents: ' + util.inspect(pkt, false, 3));
+	this.dhcpa.on('release', (from, msg) => {
 		//var spkt = this.dhcpa.createOfferPacket(pkt);
 		//this.dhcpa.send(spkt, from.port, from.address);
 
