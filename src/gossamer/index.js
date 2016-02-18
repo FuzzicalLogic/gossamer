@@ -71,6 +71,9 @@ module.exports = function runApplication(ELECTRON) {
 		}
 
 		var dhcpaClient = new DHCPA.Client();
+		dhcpaClient.address('127.255.255.253')
+			.start();
+
 		dhcpaClient.on('listening', (address) => {
 			console.log('DHCP/A Test Client listening on: ' + address);
 		});
@@ -88,7 +91,7 @@ module.exports = function runApplication(ELECTRON) {
 		dhcpaClient.on('nak', (from, pkt) => {
 
 		});
-		dhcpaClient.bind('127.255.255.253');
+		//dhcpaClient.bind('127.255.255.253');
 
 		var disc = dhcpaClient.createDiscoverPacket({
 			xid: 0x01,
@@ -100,7 +103,7 @@ module.exports = function runApplication(ELECTRON) {
 			}
 		});
 		console.log('Sending DHCP/A Discover:', util.inspect(disc, false, 3))
-		dhcpaClient.broadcastPacket(disc, undefined, () => {
+		dhcpaClient.broadcast(disc, undefined, () => {
 			console.log('dhcpDiscover sent');
 		});
 
