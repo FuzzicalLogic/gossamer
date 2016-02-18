@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "async": "^1.5.2",
+    "attribute": "fuzzicallogic/js-attributes",
     "body-parser": "^1.15.0",
     "connect": "^3.4.1",
     "dhcpjs": "^0.4.0",
