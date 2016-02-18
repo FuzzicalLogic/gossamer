@@ -63,8 +63,6 @@ module.exports = function runApplication(ELECTRON) {
 			appTray.on('click', showMainWindow);
 
 			global.dnsserver.start('127.255.255.254');
-			//global.dhcpaserver.address('127.90.0.1')
-			//	.start();
 			global.serviceManager.address('127.99.0.1')
 				.hostname('services' + DOMAIN_SUFFIX)
 				.start();
