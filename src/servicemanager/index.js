@@ -1,17 +1,17 @@
 "use strict";
-module.exports = (http, connect, dhcpa) => {
+module.exports = (http, connect, dhcps) => {
 	if (http && typeof http.createServer === 'function')
 		HTTP = http;
 	if (typeof connect === 'function')
 		CONNECT = connect;
-	DHCPA = dhcpa;
+	DHCPS = dhcps;
 
 	return (!!http && !!connect)
 		? ServiceManager
 		: () => {};
 }
 
-var HTTP, CONNECT, DHCPA;
+var HTTP, CONNECT, DHCPS;
 var VALID_IP4_ADDRESS = /^(?:(25[0-5]|(?:2[0-4]|1[0-9]|[1-9])?[0-9])\.){3}(25[0-5]|(?:2[0-4]|1[0-9]|[1-9])?[0-9])$/;
 
 var util = require('util');
@@ -41,26 +41,26 @@ function ServiceManager(dns) {
 		return hostname;
 	};
 
-	this.dhcpa = DHCPA.createServer();
-	this.dhcpa.on('message', (from, msg) => {
+	this.dhcps = DHCPS.createServer();
+	this.dhcps.on('message', (from, msg) => {
 
 	});
-	this.dhcpa.on('discover', (from, msg) => {
-		var spkt = this.dhcpa.createOfferPacket(msg);
-		this.dhcpa.send(spkt, from.port, from.address);
+	this.dhcps.on('discover', (from, msg) => {
+		var spkt = this.dhcps.createOfferPacket(msg);
+		this.dhcps.send(spkt, from.port, from.address);
 	});
-	this.dhcpa.on('request', (from, msg) => {
-		var spkt = this.dhcpa.createAckPacket(msg);
-		//var spkt = this.dhcpa.createNakPacket(pkt);
-		this.dhcpa.send(spkt, from.port, from.address);
+	this.dhcps.on('request', (from, msg) => {
+		var spkt = this.dhcps.createAckPacket(msg);
+		//var spkt = this.dhcps.createNakPacket(pkt);
+		this.dhcps.send(spkt, from.port, from.address);
 	});
-	this.dhcpa.on('decline', (from, msg) => {
-		//var spkt = this.dhcpa.createOfferPacket(pkt);
-		//this.dhcpa.send(spkt, from.port, from.address);
+	this.dhcps.on('decline', (from, msg) => {
+		//var spkt = this.dhcps.createOfferPacket(pkt);
+		//this.dhcps.send(spkt, from.port, from.address);
 	});
-	this.dhcpa.on('release', (from, msg) => {
-		//var spkt = this.dhcpa.createOfferPacket(pkt);
-		//this.dhcpa.send(spkt, from.port, from.address);
+	this.dhcps.on('release', (from, msg) => {
+		//var spkt = this.dhcps.createOfferPacket(pkt);
+		//this.dhcps.send(spkt, from.port, from.address);
 
 	});
 
@@ -76,8 +76,8 @@ function ServiceManager(dns) {
 }
 
 function startServer() {
-	this.dhcpa.on('listening', () => {
-		console.log('DHCP/A started successfully on: ' + this.dhcpa.address());
+	this.dhcps.on('listening', () => {
+		console.log('DHCP/A started successfully on: ' + this.dhcps.address());
 		this.server.listen(80, this.address(), () => {
 			this.dns.entries().push({
 				domain: this.hostname(),
@@ -87,7 +87,7 @@ function startServer() {
 			});
 		});
 	});
-	this.dhcpa.address(this.address()).start();
+	this.dhcps.address(this.address()).start();
 
 }
 
