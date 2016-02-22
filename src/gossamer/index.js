@@ -4,7 +4,8 @@ var util = require('util'),
 	HTTP = require('http'),
 	CONNECT = require('CONNECT'),
 	DNS = require('native-dns'),
-	DHCPA = require('../../lib/dhcpa')(),
+//	DHCPS = require('../../lib/DHCPS')(),
+	DHCPS = require('dhcps')(),
 	ASYNC = require('async');
 
 module.exports = function runApplication(ELECTRON) {
@@ -16,8 +17,7 @@ module.exports = function runApplication(ELECTRON) {
 	var Menu = ELECTRON.Menu;
 
 	var DDNSServer = require('../ddns')(DNS, ASYNC);
-	//var DHCPAServer = require('../dhcpa')(DHCPA, CONNECT);
-	var ServiceManager = require('../servicemanager')(HTTP, CONNECT, DHCPA);
+	var ServiceManager = require('../servicemanager')(HTTP, CONNECT, DHCPS);
 	var GossamerService = require('./service')(HTTP, CONNECT);
 
 	this.commandLine.appendSwitch('v', -1);
@@ -70,7 +70,7 @@ module.exports = function runApplication(ELECTRON) {
 			global.server.start();
 		}
 
-		var dhcpaClient = new DHCPA.Client();
+		var dhcpaClient = new DHCPS.Client();
 		dhcpaClient.address('127.255.255.253')
 			.start();
 
@@ -93,15 +93,7 @@ module.exports = function runApplication(ELECTRON) {
 		});
 		//dhcpaClient.bind('127.255.255.253');
 
-		var disc = dhcpaClient.createDiscoverPacket({
-			xid: 0x01,
-			chaddr: {
-				address: '00:01:02:03:04:05'
-			},
-			options: {
-				dhcpMessageType: DHCPA.Message.TYPES.DHCP_DISCOVER.value,
-			}
-		});
+		var disc = dhcpaClient.discover(1);
 		console.log('Sending DHCP/A Discover:', util.inspect(disc, false, 3))
 		dhcpaClient.broadcast(disc, undefined, () => {
 			console.log('dhcpDiscover sent');
