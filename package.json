@@ -12,6 +12,7 @@
     "connect": "^3.4.1",
     "dchps": "fuzzicallogic/dhcps",
     "dhcpjs": "^0.4.0",
+    "dhcps": "fuzzicallogic/dhcps#v0.2.0",
     "http": "*",
     "native-dns": "^0.7.0",
     "oauthorize": "^0.1.0",
