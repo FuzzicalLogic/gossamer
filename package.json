@@ -1,18 +1,22 @@
 {
   "name": "gossamer",
   "productName": "Gossamer Dynamic Web Server",
-  "main": "src/gossamer.js",
+  "main": "src/",
   "scripts": {
-    "start": "electron src/gossamer.js"
+    "start": "electron --js-flags=\"-harmony-async-await\" ."
   },
   "dependencies": {
+    "async": "^1.5.2",
+    "cimport": "file:///Projects/nativeweb/cimport",
     "connect": "^3.4.1",
-    "http": "*",
+    "dhcps": "file:///Projects/Node/dhcps",
     "oauthorize": "^0.1.0",
+    "outclass": "file:///Projects/nativeweb/outclass",
     "uid2": "0.0.3",
     "utils-merge": "^1.0.0"
   },
   "devDependencies": {
+    "electron": "^1.4.13",
     "grunt": "^0.4.5",
     "grunt-build-atom-shell": "^2.1.1"
   }
