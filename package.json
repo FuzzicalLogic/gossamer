@@ -3,23 +3,20 @@
   "productName": "Gossamer Dynamic Web Server",
   "main": "src/",
   "scripts": {
-    "start": "electron src/"
+    "start": "electron --js-flags=\"-harmony-async-await\" ."
   },
   "dependencies": {
     "async": "^1.5.2",
-    "attribute": "fuzzicallogic/js-attributes",
-    "body-parser": "^1.15.0",
+    "cimport": "file:///Projects/nativeweb/cimport",
     "connect": "^3.4.1",
-    "dchps": "fuzzicallogic/dhcps",
-    "dhcpjs": "^0.4.0",
-    "dhcps": "fuzzicallogic/dhcps#v0.2.0",
-    "http": "*",
-    "native-dns": "^0.7.0",
+    "dhcps": "file:///Projects/Node/dhcps",
     "oauthorize": "^0.1.0",
+    "outclass": "file:///Projects/nativeweb/outclass",
     "uid2": "0.0.3",
     "utils-merge": "^1.0.0"
   },
   "devDependencies": {
+    "electron": "^1.4.13",
     "grunt": "^0.4.5",
     "grunt-build-atom-shell": "^2.1.1"
   }

@@ -42,23 +42,22 @@ function ServiceManager(dns) {
 	};
 
 	this.dhcps = DHCPS.createServer();
-	this.dhcps.on('message', (from, msg) => {
-
+	this.dhcps.on('discover', (msg) => {
+		var spkt = this.dhcps.offer(msg).encode(new Buffer(1500));
+		this.dhcps.broadcast(spkt);
 	});
-	this.dhcps.on('discover', (from, msg) => {
-		var spkt = this.dhcps.createOfferPacket(msg);
-		this.dhcps.send(spkt, from.port, from.address);
+	this.dhcps.on('request', (msg) => {
+		var packet;
+		if (msg.options && msg.options.serverIdentifier === ''+this.address()) {
+			packet = this.dhcps.ack(msg).encode(new Buffer(1500));
+			this.dhcps.broadcast(packet);
+		}
 	});
-	this.dhcps.on('request', (from, msg) => {
-		var spkt = this.dhcps.createAckPacket(msg);
-		//var spkt = this.dhcps.createNakPacket(pkt);
-		this.dhcps.send(spkt, from.port, from.address);
-	});
-	this.dhcps.on('decline', (from, msg) => {
+	this.dhcps.on('decline', (msg) => {
 		//var spkt = this.dhcps.createOfferPacket(pkt);
 		//this.dhcps.send(spkt, from.port, from.address);
 	});
-	this.dhcps.on('release', (from, msg) => {
+	this.dhcps.on('release', (msg) => {
 		//var spkt = this.dhcps.createOfferPacket(pkt);
 		//this.dhcps.send(spkt, from.port, from.address);
 
@@ -77,7 +76,7 @@ function ServiceManager(dns) {
 
 function startServer() {
 	this.dhcps.on('listening', () => {
-		console.log('DHCP/A started successfully on: ' + this.dhcps.address());
+		console.log('DHCP/S started successfully on: ' + this.dhcps.address());
 		this.server.listen(80, this.address(), () => {
 			this.dns.entries().push({
 				domain: this.hostname(),

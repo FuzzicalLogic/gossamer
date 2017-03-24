@@ -64,6 +64,7 @@ function getEntries() {
 function handleRequest(request, response) {
 	var f = [];
 
+console.log('DNS Request made...');
 	request.question.forEach((question) => {
 		var entry = this._entries.filter((r) => {
 			return new RegExp('^'+r.domain.replace(/\./g, '\\.')+'$', 'i').exec(question.name)
